@@ -1,0 +1,131 @@
+﻿<Window x:Name="StartWindow" x:Class="CIPReport.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CIPReport"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="441" Width="1272" Closed="mainWindow_Closed"
+        >
+    <Grid>
+
+
+        <DataGrid x:Name="mainTable" VerticalAlignment="Top" AutoGenerateColumns="False"  Margin="0,48,0,0" CanUserDeleteRows="False" 
+                  CanUserAddRows="False" CanUserReorderColumns="False" IsReadOnly="True" RowDetailsVisibilityMode="Collapsed" IsSynchronizedWithCurrentItem="True" EnableRowVirtualization="False" >
+            <DataGrid.Columns >
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ShowHideDetails">+</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding ="{Binding DT_string}" Header="Время запуска"/>
+                <DataGridTextColumn Binding ="{Binding Ending_string}" Header="Время останова"/>
+                <DataGridTextColumn Binding ="{Binding cont}" Header="Длительность"/>
+                <DataGridTextColumn Binding ="{Binding Module}" Header="Модуль"/>
+                <DataGridTextColumn Binding ="{Binding Obj}" Header="Объект мойки"/>
+                <DataGridTextColumn Binding ="{Binding Prog}" Header="Программа мойки"/>
+                <DataGridTextColumn Binding ="{Binding Finish}" Header="Результат мойки"/>
+                <DataGridTextColumn Binding ="{Binding Prev_Delta}" Header="Время с последней мойки"/>
+                <DataGridTextColumn Binding ="{Binding Oper}" Header="Кто запустил"/>
+            </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding PhaseTable}" AutoGenerateColumns="False" RowDetailsVisibilityMode="Collapsed" IsReadOnly="True" Margin="10,0,0,0" >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="ShowHideDetailsPhase">+</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding DT_start_string}" Header = "Начало"/>
+                            <DataGridTextColumn Binding="{Binding DT_finish_string}" Header = "Окончание"  />
+                            <DataGridTextColumn Binding="{Binding Cont}" Header = "Продолжительность"/>
+                            <DataGridTextColumn Binding="{Binding Phase}" Header = "Фаза"/>
+                            <DataGridTextColumn Binding="{Binding TempAVG}" Header = "Средняя температура"/>
+                            <DataGridTextColumn Binding="{Binding TempSP}" Header = "Уставка температуры"/>
+                            <DataGridTextColumn Binding="{Binding ConcAVG}" Header = "Средняя концентрация"/>
+                            <DataGridTextColumn Binding="{Binding ConcSP}" Header = "Уставка концентрации"/>
+                            <DataGridTextColumn Binding="{Binding FTAVG}" Header = "Средний поток"/>
+                            <DataGridTextColumn Binding="{Binding FTSP}" Header = "Уставка потока"/>
+                        </DataGrid.Columns>
+
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <DataGrid ItemsSource="{Binding StepTable}" AutoGenerateColumns="False" IsReadOnly="True" Margin="20,0,0,0" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding DTstart_AVG}" Header="Начало"/>
+                                        <DataGridTextColumn Binding="{Binding DTstop_AVG}" Header="Окончание"/>
+                                        <DataGridTextColumn Binding="{Binding cont}" Header="Продожительность"/>
+                                        <DataGridTextColumn Binding="{Binding Step}" Header="Шаг"/>
+                                        <DataGridTextColumn Binding="{Binding RetTempCalcAVG}" Header="tср"/>
+                                        <DataGridTextColumn Binding="{Binding RetTempSPAVG}" Header="t уставка"/>
+                                        <DataGridTextColumn Binding="{Binding RetTempCalcMIN}" Header="t min"/>
+                                        <DataGridTextColumn Binding="{Binding RetTempCalcMAX}" Header="t max"/>
+
+                                        <DataGridTextColumn Binding="{Binding RetConcCalcAVG}" Header="ωср"/>
+                                        <DataGridTextColumn Binding="{Binding RetConcSPAVG}" Header="ω уставка"/>
+                                        <DataGridTextColumn Binding="{Binding RetConcCalcMIN}" Header="ω min"/>
+                                        <DataGridTextColumn Binding="{Binding RetConcCalcMAX}" Header="ω max"/>
+
+                                        <DataGridTextColumn Binding="{Binding FTCalcAVG}" Header="Q ср"/>
+                                        <DataGridTextColumn Binding="{Binding FTSPAVG}" Header="Q уставка"/>
+                                        <DataGridTextColumn Binding="{Binding FTCalcMIN}" Header="Q min"/>
+                                        <DataGridTextColumn Binding="{Binding FTCalcMAX}" Header="Q max"/>
+
+
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+        <Label x:Name="label_Start" Content="Начало&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Height="24" Padding="5,3,5,5"/>
+        <DatePicker x:Name="datePickerStart" HorizontalAlignment="Left" Margin="66,9,0,0" VerticalAlignment="Top" FirstDayOfWeek="Monday" Text="24.04.2021" Width="100"  >
+
+        </DatePicker>
+        <Label x:Name="label_Stop" Content="Конец&#xA;" HorizontalAlignment="Left" Margin="187,9,0,0" VerticalAlignment="Top" Height="24" Padding="5,3,5,5"/>
+        <DatePicker x:Name="datePickerStop" HorizontalAlignment="Left" Margin="237,9,0,0" VerticalAlignment="Top" FirstDayOfWeek="Monday" Text="26.04.2021" Width="100" Height="24"  />
+
+        <Button x:Name="button_Find" Content="Начать поиск" HorizontalAlignment="Left" Margin="491,9,0,0" VerticalAlignment="Top" Height="24" Padding="1,1,1,1" Click="button_Find_Click"/>
+
+        <TextBox x:Name="texBox_Finder" HorizontalAlignment="Left" Margin="451,9,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="27" Height="24" MaxLines="1" MaxHeight="24" MaxWidth="27" TextAlignment="Center" SelectionOpacity="0" Padding="0,2,0,0" PreviewTextInput="texBox_Finder_PreviewTextInput"/>
+        <Label x:Name="label_Finder" Content="Поиск в глубину&#xA;" HorizontalAlignment="Left" Margin="351,9,0,0" VerticalAlignment="Top" Height="24" Padding="5,3,5,5"/>
+        <ComboBox x:Name="comboBox_Objects" HorizontalAlignment="Left" Margin="923,9,0,0" VerticalAlignment="Top" Width="158" Height="24" SelectionChanged="comboBox_Objects_SelectionChanged" Visibility="Hidden">
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsSelected}" Width="20" VerticalAlignment="Center" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Click="CheckBox_Click"  />
+                        <TextBlock Text="{Binding ObjectData}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="button_Filter" Content="Применить фильтр" HorizontalAlignment="Left" Margin="1112,9,0,0" VerticalAlignment="Top" Height="24" Padding="1,1,1,1" Click="button_Filter_Click" Visibility="Hidden"/>
+        
+        <ComboBox x:Name="comboBox_Module" HorizontalAlignment="Left" Margin="593,9,0,0" VerticalAlignment="Top" Width="158" Height="24" SelectionChanged="comboBox_Module_SelectionChanged" Visibility="Hidden">
+
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsSelected}" Width="20" VerticalAlignment="Center" Click="CheckBoxModule_Click"  />
+                        <TextBlock Text="{Binding ObjectData}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="button_FilterModule" Content="Применить фильтр" HorizontalAlignment="Left" Margin="782,9,0,0" VerticalAlignment="Top" Height="24" Padding="1,1,1,1" Click="button_FilterModule_Click" Visibility="Hidden"/>
+
+    </Grid>
+
+</Window>
+    
